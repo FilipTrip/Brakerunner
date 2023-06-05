@@ -74,13 +74,33 @@ public class PlayerAnimator : MonoBehaviour
 
     public void HideAll()
     {
+        hideAll = true;
         activeAnimation = null;
+
         idle.SetActive(false);
         run.SetActive(false);
         jump.SetActive(false);
         duck.SetActive(false);
         shoot.SetActive(false);
         fall.SetActive(false);
+    }
+
+    public void StopJump()
+    {
+        if (activeAnimation == jump)
+            Run();
+    }
+
+    public void StopDuck()
+    {
+        if (activeAnimation == duck)
+            Run();
+    }
+
+    public void StopShoot()
+    {
+        if (activeAnimation == shoot)
+            Run();
     }
 
 }

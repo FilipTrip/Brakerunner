@@ -10,7 +10,9 @@ public class Explosion : MonoBehaviour
     private void Start()
     {
         Destroy(gameObject, 4f);
-        CameraShakerHandler.Shake(shakeData);
+
+        if (SettingsMenu.CameraShake)
+            CameraShakerHandler.Shake(shakeData);
     }
 
 }

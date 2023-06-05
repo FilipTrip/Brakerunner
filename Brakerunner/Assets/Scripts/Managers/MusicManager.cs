@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MusicManager : MonoBehaviour
 {
@@ -8,13 +9,16 @@ public class MusicManager : MonoBehaviour
 
     [SerializeField] private AudioSource audioSource;
 
+    private static float volume;
+    public static float Volume => volume;
+
     private void Start()
     {
         SceneTransitioner.Instance.BeforeLoadScene.AddListener(BeforeLoadScene);
 
         if (Instance == null)
         {
-            Debug.Log("Instance was null");
+            volume = 1f;
             Instance = this;
             StartCoroutine(Coroutine_FadeInMusic());
         }
@@ -22,12 +26,10 @@ public class MusicManager : MonoBehaviour
         else
         {
             // This is a new instance while an old one was moved to this scene
-            Debug.Log("Instance existed");
 
             // If same clip
             if (audioSource.clip == Instance.audioSource.clip)
             {
-                Debug.Log("Same clip");
                 // Let the old instance continue playing
                 Instance.transform.parent = Camera.main.transform;
                 Destroy(gameObject);
@@ -36,7 +38,6 @@ public class MusicManager : MonoBehaviour
             // If new clip
             else
             {
-                Debug.Log("New clip");
                 // Replace old instance
                 Instance.audioSource.Stop();
                 Destroy(Instance.gameObject);
@@ -57,13 +58,19 @@ public class MusicManager : MonoBehaviour
     {
         audioSource.volume = 0f;
 
-        while (audioSource.volume < 1f)
+        while (audioSource.volume < volume)
         {
             yield return null;
-            audioSource.volume += Time.unscaledDeltaTime * 0.5f;
+            audioSource.volume += Time.unscaledDeltaTime * 0.5f * volume;
         }
 
-        audioSource.volume = 1f;
+        audioSource.volume = volume;
+    }
+
+    public void SetVolume(float volume)
+    {
+        MusicManager.volume = volume;
+        audioSource.volume = volume;
     }
 
 }

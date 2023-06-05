@@ -25,12 +25,6 @@ public class SceneTransitioner : MonoBehaviour
         DelayedCall.Create(this, () => LoadScene(sceneName), fadeDuration + loadSceneDelay);
     }
 
-    public void FadeToNextLevel()
-    {
-        animator.SetTrigger("FadeToBlack");
-        DelayedCall.Create(this, NextLevel, fadeDuration + loadSceneDelay);
-    }
-
     public void FadeToMenuScene()
     {
         animator.SetTrigger("FadeToBlack");
@@ -47,20 +41,6 @@ public class SceneTransitioner : MonoBehaviour
     {
         animator.SetTrigger("FadeToBlack");
         DelayedCall.Create(this, Exit.ExitApplication, fadeDuration + loadSceneDelay);
-    }
-
-    public void NextLevel()
-    {
-        int level = int.Parse(SceneManager.GetActiveScene().name.Replace("Level ", ""));
-
-        if (level == LevelSelect.LevelCount)
-        {
-            LoadScene("End");
-        }
-        else
-        {
-            LoadScene("Level " + (level + 1).ToString());
-        }
     }
 
     public void ReloadActiveScene()

@@ -6,9 +6,18 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
+    [Header("References")]
     [SerializeField] private PlayerAnimator playerAnimator;
     [SerializeField] private Rigidbody2D rigidbody;
+    [SerializeField] private Transform cameraParent;
+    [SerializeField] private Transform firePoint;
     [SerializeField] private Jump jump;
+
+    [Header("Prefabs")]
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject explosionPrefab;
+
+    [Header("Values")]
     [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float jumpDuration;
     [SerializeField] private float jumpForce;
@@ -18,16 +27,20 @@ public class Player : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float speedAcceleration;
     [SerializeField] private float minSpeedAcceleration;
-    [SerializeField] private Transform cameraParent;
     [SerializeField] private float duckDuration;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform firePoint;
     [SerializeField] private float shootDuration;
-    [SerializeField] private GameObject explosionPrefab;
 
-    private float duckTimer;
+    [Header("Sounds")]
+    [SerializeField] private SoundData jumpSound;
+    [SerializeField] private SoundData duckSound;
+    [SerializeField] private SoundData brakeSound;
+    [SerializeField] private SoundData landSound;
+
     private bool dead;
+    private float duckTimer;
     private float shootTimer;
+    private Coroutine jumpCoroutine;
+    private AudioSource duckSoundDummy;
 
     public float Speed => speed;
     public Transform CameraParent => cameraParent;
@@ -37,22 +50,38 @@ public class Player : MonoBehaviour
         return speed.Remapped(minSpeed, maxSpeed, 0f, 1f);
     }
 
+    // Start
+
     private void Awake()
     {
         Instance = this;
         speed = 0f;
         maxSpeed = minSpeed * 2f;
-        dead = true; // So to not update
-        DelayedCall.Create(this, Delayed_Start, 2f);
+        dead = true; // Disables Update()
+
+        StartCoroutine(Coroutine_Start());
     }
 
-    private void Delayed_Start()
+    private IEnumerator Coroutine_Start()
     {
-        dead = false;
-        rigidbody.velocity = new Vector2(1, 0); // So to not die first frame
-        speed = minSpeed;
+        yield return new WaitForSeconds(1.5f);
+
         playerAnimator.Run();
+        speed = minSpeed;
+
+        while (GetSpeedPercentage() < 0.5f)
+        {
+            speed += Time.deltaTime * 8f;
+            rigidbody.velocity = new Vector2(speed, rigidbody.velocity.y);
+            playerAnimator.UpdateRunSpeed(speed);
+            yield return null;
+        }
+
+        dead = false; // Enables Update()
+        rigidbody.velocity = Vector2.right; // So to not die first frame, will be instantly overwritten
     }
+
+    // Update
 
     private void Update()
     {
@@ -68,14 +97,24 @@ public class Player : MonoBehaviour
             return;
         }
 
-        // Update duck timer
+        // Update timers
 
         if (duckTimer > 0f)
         {
-            duckTimer -= Time.deltaTime;
-
-            if (duckTimer <= 0f)
+            if ((duckTimer -= Time.deltaTime) <= 0f)
+            {
+                duckTimer = 0f;
                 StopDuck();
+            } 
+        }
+
+        if (shootTimer > 0f)
+        {
+            if ((shootTimer -= Time.deltaTime) <= 0f)
+            {
+                shootTimer = 0f;
+                StopShoot();
+            }
         }
 
         // Increase min and max speed
@@ -84,30 +123,28 @@ public class Player : MonoBehaviour
 
         // Increase and clamp speed
         speed += speedAcceleration * Time.deltaTime;
-        speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+        speed = Mathf.Min(speed, maxSpeed);
         playerAnimator.UpdateRunSpeed(speed);
+
+        // Start actions
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            Debug.Log("Jumping");
             Jump();
         }
 
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            Debug.Log("Ducking");
-            StartDuck();
+            Duck();
         }
 
         if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            Debug.Log("Shooting");
-            StartCoroutine(Coroutine_Shoot());
+            Shoot();
         }
 
         else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            Debug.Log("Braking");
             Brake();
         }
     }
@@ -120,45 +157,141 @@ public class Player : MonoBehaviour
         rigidbody.velocity = new Vector2(speed, rigidbody.velocity.y);
     }
 
+    // Jump
+
     private void Jump()
     {
-        if (jump.CanJump)
-        {
-            if (duckTimer > 0f)
-                StopDuck();
+        if (!jump.CanJump)
+            return;
 
-            StopShoot();
-            StartCoroutine(Coroutine_Jump());
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
-            playerAnimator.Jump();
-            jump.Landing.AddListener(playerAnimator.Run);
-            jump.Landing.AddListener(StopJump);
-        }
+        // Stop other actions
+        StopDuck();
+        StopShoot();
+
+        // Jump
+        jump.Cooldown();
+        playerAnimator.Jump();
+        rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpForce);
+        SoundManager.Instance.PlayDummy(transform, jumpSound);
+        jumpCoroutine = StartCoroutine(Coroutine_Jump());
+
+        // Prepare landing
+        jump.Landing.AddListener(StopJump);
     }
 
-    private void StartDuck()
+    private IEnumerator Coroutine_Jump()
+    {
+        // Perform the jump
+
+        float jumpTimer = 0f;
+
+        while (jumpTimer < jumpDuration && duckTimer == 0)
+        {
+            jumpTimer += Time.deltaTime;
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpCurve.Evaluate(jumpTimer / jumpDuration));
+            yield return null;
+        }
+
+        rigidbody.gravityScale = 1f;
+    }
+
+    private void StopJump()
+    {
+        // Is called when landing, or when jump is interrupted by another action
+
+        // Stop performing jump, and stop waiting for landing (in case this method was called to interrupt)
+        if (jumpCoroutine != null)
+            StopCoroutine(jumpCoroutine);
+
+        jump.Landing.RemoveListener(StopJump);
+        rigidbody.gravityScale = 1f;
+
+        // Default back to running animation
+        playerAnimator.StopJump();
+    }
+
+    // Duck
+
+    private void Duck()
     {
         if (duckTimer != 0f)
             return;
 
+        // Stop other actions
         StopJump();
         StopShoot();
 
+        // Start duck
         duckTimer = duckDuration;
         rigidbody.velocity = new Vector2(rigidbody.velocity.x, -duckForce);
         playerAnimator.Duck();
+
+        if (!jump.OnGround)
+        {
+            SoundManager.Instance.PlayDummy(transform, jumpSound);
+            jump.Landing.AddListener(Land);
+        }
+        else
+        {
+            duckSoundDummy = SoundManager.Instance.PlayDummy(transform, duckSound);
+        }
     }
 
     private void StopDuck()
     {
+        // Is called when duckTimer reaches zero, or when duck is interrupted by another action
+
+        // Reset duckTimer and stop duck sound (in case this method was called to interrupt)
         duckTimer = 0f;
-        playerAnimator.Run();
+        SoundManager.Instance.FadeOut(duckSoundDummy, 0.2f);
+
+        // Default back to running animation
+        playerAnimator.StopDuck();
     }
+
+    private void Land()
+    {
+        // Is called when landing after a duck. Removes itself as a landing listener
+
+        jump.Landing.RemoveListener(Land);
+        SoundManager.Instance.PlayDummy(transform, landSound);
+        duckSoundDummy = SoundManager.Instance.PlayDummy(transform, duckSound);
+    }
+
+    // Shoot
+
+    private void Shoot()
+    {
+        if (shootTimer != 0f)
+            return;
+
+        // Stop duck (not jump)
+        StopDuck();
+
+        // Start shoot
+        shootTimer = shootDuration;
+        playerAnimator.Shoot();
+        Bullet bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity, null).GetComponent<Bullet>();
+        bullet.AddVelocity(new Vector2(rigidbody.velocity.x, 0f));
+    }
+
+    private void StopShoot()
+    {
+        // Is called when shootTimer reaches zero, or when shoot is interrupted by another action
+
+        // Defalt back to running animation
+        playerAnimator.StopShoot();
+    }
+
+    // Brake
 
     private void Brake()
     {
-        speed = minSpeed;
+        if (jump.OnGround)
+            speed = minSpeed;
     }
+
+    // Die
 
     public void Die()
     {
@@ -173,53 +306,8 @@ public class Player : MonoBehaviour
         playerAnimator.HideAll();
         rigidbody.velocity = Vector2.zero;
         rigidbody.gravityScale = 0f;
+        rigidbody.simulated = false;
         Die();
-    }
-
-    private IEnumerator Coroutine_Jump()
-    {
-        float jumpTimer = 0f;
-
-        while (jumpTimer < jumpDuration && duckTimer == 0)
-        {
-            jumpTimer += Time.deltaTime;
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpCurve.Evaluate(jumpTimer/jumpDuration));
-            yield return null;
-        }
-
-        rigidbody.gravityScale = 1f;
-    }
-
-    private void StopJump()
-    {
-        StopCoroutine(Coroutine_Jump());
-        rigidbody.gravityScale = 1f;
-        jump.Landing.RemoveListener(playerAnimator.Run);
-    }
-
-    private IEnumerator Coroutine_Shoot()
-    {
-        if (shootTimer != 0f)
-            yield break;
-
-        StopJump();
-        StopDuck();
-
-        shootTimer = shootDuration;
-        playerAnimator.Shoot();
-        Bullet bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity, null).GetComponent<Bullet>();
-        bullet.AddVelocity(new Vector2(rigidbody.velocity.x, 0f));
-
-        yield return new WaitForSeconds(shootDuration);
-        shootTimer = 0f;
-        playerAnimator.Run();
-    }
-
-    private void StopShoot()
-    {
-        StopCoroutine(Coroutine_Shoot());
-        shootTimer = 0f;
-        playerAnimator.Run();
     }
 
 }

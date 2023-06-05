@@ -9,29 +9,30 @@ public class Jump : MonoBehaviour
     [SerializeField] private float cooldownTime;
 
     private bool cooldown = true;
-    private bool canJump = false;
-    private bool oldJump = false;
+    private bool onGround = false;
+    private bool oldOnGround = false;
 
-    public bool CanJump => canJump && cooldown;
+    public bool OnGround => onGround;
+    public bool CanJump => onGround && cooldown;
 
     public UnityEvent Landing = new UnityEvent();
 
     private void FixedUpdate()
     {
-        oldJump = canJump;
-        canJump = false;
+        oldOnGround = onGround;
+        onGround = false;
     }
 
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (canJump)
+        if (onGround)
             return;
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Default"))
         {
-            canJump = true;
+            onGround = true;
 
-            if (oldJump == false)
+            if (oldOnGround == false)
             {
                 Debug.Log("Landing");
                 Landing.Invoke();

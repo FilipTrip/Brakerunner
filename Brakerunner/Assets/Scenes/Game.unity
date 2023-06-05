@@ -146,7 +146,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.125}
+  m_Offset: {x: 0, y: -0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -157,7 +157,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.55}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1 &47192559
 GameObject:
@@ -213,7 +213,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.125}
+  m_Offset: {x: 0, y: -0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -224,7 +224,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.55}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1 &204201227
 GameObject:
@@ -298,6 +298,8 @@ MonoBehaviour:
   - {fileID: 3492116249959230459, guid: 43cbacd8284c745cab2ad62df26ac8fb, type: 3}
   - {fileID: 3492116249959230459, guid: b3292b6c913444248ae2771cb0703e23, type: 3}
   - {fileID: 3492116249959230459, guid: cb20c3655a91a4d0aa362c320af8ec03, type: 3}
+  - {fileID: 3492116249959230459, guid: df01e83d51f0a47f9be3e760e5930ee4, type: 3}
+  - {fileID: 3492116249959230459, guid: 9c5206e9ecbac466eb4b013120df448a, type: 3}
   instantiateDistance: 40
   destroyDistance: 15
   activeSegments:
@@ -431,7 +433,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.125}
+  m_Offset: {x: 0, y: -0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -442,7 +444,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.55}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1 &732494414 stripped
 GameObject:
@@ -536,7 +538,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 0.1}
+  m_Size: {x: 1.3, y: 0.06}
   m_EdgeRadius: 0
 --- !u!114 &877331247
 MonoBehaviour:
@@ -550,7 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 916a44796854144b3966c5a1f24b2475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 0.05
+  cooldownTime: 0.3
   Landing:
     m_PersistentCalls:
       m_Calls: []
@@ -577,7 +579,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.125}
+  m_Offset: {x: 0, y: -0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -588,7 +590,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.55}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1 &1179385052
 GameObject:
@@ -793,7 +795,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.125}
+  m_Offset: {x: 0, y: -0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -804,7 +806,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.55}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1 &1495785962
 GameObject:
@@ -892,7 +894,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 1495785969}
   rigidbody: {fileID: 1495785968}
+  cameraParent: {fileID: 1299701827}
+  firePoint: {fileID: 47192560}
   jump: {fileID: 877331247}
+  bulletPrefab: {fileID: 7259374370334305698, guid: 7468c053bb4b3465f925f0dbc9d9e7a4, type: 3}
+  explosionPrefab: {fileID: 6416419833205740478, guid: 846534c1246bf40daa07f999d78154a5, type: 3}
   jumpCurve:
     serializedVersion: 2
     m_Curve:
@@ -943,12 +949,24 @@ MonoBehaviour:
   maxSpeed: 0
   speedAcceleration: 0.4
   minSpeedAcceleration: 0.03
-  cameraParent: {fileID: 1299701827}
   duckDuration: 0.6
-  bulletPrefab: {fileID: 7259374370334305698, guid: 7468c053bb4b3465f925f0dbc9d9e7a4, type: 3}
-  firePoint: {fileID: 47192560}
-  shootDuration: 0.3
-  explosionPrefab: {fileID: 6416419833205740478, guid: 846534c1246bf40daa07f999d78154a5, type: 3}
+  shootDuration: 0.2
+  jumpSound:
+    audioClip: {fileID: 8300000, guid: a94e2a944b4f14ab2b7e017b6ce55d5d, type: 3}
+    pitch: 1
+    volume: 0.6
+  duckSound:
+    audioClip: {fileID: 8300000, guid: 8634b56746bdc469aa417b31e8ab0921, type: 3}
+    pitch: 1
+    volume: 1
+  brakeSound:
+    audioClip: {fileID: 8300000, guid: 8634b56746bdc469aa417b31e8ab0921, type: 3}
+    pitch: 1
+    volume: 0.7
+  landSound:
+    audioClip: {fileID: 8300000, guid: 58affe7ad4e8946619c239cc4f14c10a, type: 3}
+    pitch: 1
+    volume: 1
 --- !u!4 &1495785966
 Transform:
   m_ObjectHideFlags: 0
@@ -957,7 +975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495785962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.13, y: -5, z: 0}
+  m_LocalPosition: {x: -9, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
