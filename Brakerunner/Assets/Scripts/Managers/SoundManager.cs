@@ -29,11 +29,12 @@ public class SoundManager : MonoBehaviour
         audioSource.PlayOneShot(audioClipsDictionary[audioClipName]);
     }
 
-    public void PlayDummy(Transform sourceTransform, AudioClip audioClip, float pitch = 1f)
+    public void PlayDummy(Transform sourceTransform, AudioClip audioClip, float pitch = 1f, float volume = 1f)
     {
         GameObject dummy = Instantiate(dummyPrefab, sourceTransform.position, Quaternion.identity, transform);
         AudioSource audioSource = dummy.GetComponent<AudioSource>();
         audioSource.pitch = pitch;
+        audioSource.volume = volume;
         audioSource.PlayOneShot(audioClip);
         Destroy(dummy, audioClip.length + 0.1f);
     }

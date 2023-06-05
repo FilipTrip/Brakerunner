@@ -27,7 +27,7 @@ namespace EasyParallax
             //defined speed and the deltaTime, so we can get a framerate independent movement
 
             if (useCameraManager)
-                newPosition.x -= speed * Time.deltaTime * CameraManager.Instance.DeltaPosition.x * 10f;
+                newPosition.x -= speed * CameraManager.Instance.DeltaPosition.x * 0.04f;
             else
                 newPosition.x -= speed * Time.deltaTime * 0.2f;
 

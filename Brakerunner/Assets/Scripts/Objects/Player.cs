@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float shootDuration;
+    [SerializeField] private GameObject explosionPrefab;
 
     private float duckTimer;
     private bool dead;
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour
         if (rigidbody.velocity.x <= 0f || rigidbody.velocity.y < -50f)
         {
             Debug.Log("Death velocity: " + rigidbody.velocity);
-            Die();
+            Explode();
             return;
         }
 
@@ -84,6 +85,7 @@ public class Player : MonoBehaviour
         // Increase and clamp speed
         speed += speedAcceleration * Time.deltaTime;
         speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+        playerAnimator.UpdateRunSpeed(speed);
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
@@ -158,11 +160,20 @@ public class Player : MonoBehaviour
         speed = minSpeed;
     }
 
-    private void Die()
+    public void Die()
     {
         dead = true;
         GameManager.Instance.StopRun();
-        SceneTransitioner.Instance.FadeToScene("End");
+        DelayedCall.Create(this, () => SceneTransitioner.Instance.FadeToScene("End"), 1f);
+    }
+
+    public void Explode()
+    {
+        Instantiate(explosionPrefab, transform.position + new Vector3(0f, 1.5f, 0f), Quaternion.identity, null);
+        playerAnimator.HideAll();
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.gravityScale = 0f;
+        Die();
     }
 
     private IEnumerator Coroutine_Jump()
@@ -197,7 +208,7 @@ public class Player : MonoBehaviour
         shootTimer = shootDuration;
         playerAnimator.Shoot();
         Bullet bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity, null).GetComponent<Bullet>();
-        bullet.AddVelocity(rigidbody.velocity);
+        bullet.AddVelocity(new Vector2(rigidbody.velocity.x, 0f));
 
         yield return new WaitForSeconds(shootDuration);
         shootTimer = 0f;

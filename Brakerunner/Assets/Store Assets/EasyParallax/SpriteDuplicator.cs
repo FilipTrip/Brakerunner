@@ -67,7 +67,7 @@ namespace EasyParallax
             //We will reposition it to be on the right side if it is
             foreach (var duplicate in duplicatesPool)
             {
-                if (duplicate.transform.position.x < -spriteWidth * spriteRepositionIndex)
+                if (duplicate.transform.localPosition.x < -spriteWidth * spriteRepositionIndex)
                 {
                     //In order to reposition it, we need to get which sprite is the rightmost currently
                     var rightmostSprite = GetRightMostSprite();

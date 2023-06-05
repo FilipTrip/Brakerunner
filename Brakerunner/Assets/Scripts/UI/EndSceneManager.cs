@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EndSceneManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private Button playButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Keyboard keyboard;
     [SerializeField] private Scoreboard scoreboard;
@@ -14,7 +15,7 @@ public class EndSceneManager : MonoBehaviour
     private void Start()
     {
         keyboard.gameObject.SetActive(false);
-        mainMenuButton.Select();
+        playButton.Select();
 
         scoreboard.LoadHighscores();
         scoreboard.EnsureNoNames();
@@ -27,6 +28,7 @@ public class EndSceneManager : MonoBehaviour
             Debug.Log("New highscore!");
             scoreboard.AddHighscore(score);
             keyboard.gameObject.SetActive(true);
+            playButton.gameObject.SetActive(false);
             mainMenuButton.gameObject.SetActive(false);
         }
         else

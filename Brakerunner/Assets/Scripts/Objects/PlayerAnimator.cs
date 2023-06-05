@@ -10,8 +10,10 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private GameObject duck;
     [SerializeField] private GameObject shoot;
     [SerializeField] private GameObject fall;
-
+    [SerializeField] private Animator runAnimator;
+    
     private GameObject activeAnimation;
+    private bool hideAll = false;
 
     public void Start()
     {
@@ -27,9 +29,17 @@ public class PlayerAnimator : MonoBehaviour
 
     private void SetAnimation(GameObject animation)
     {
+        if (hideAll)
+            return;
+
         activeAnimation.SetActive(false);
         activeAnimation = animation;
         activeAnimation.SetActive(true);
+    }
+
+    public void UpdateRunSpeed(float movementSpeed)
+    {
+        runAnimator.speed = movementSpeed * 0.1f;
     }
 
     public void Idle()
@@ -60,6 +70,17 @@ public class PlayerAnimator : MonoBehaviour
     public void Fall()
     {
         SetAnimation(fall);
+    }
+
+    public void HideAll()
+    {
+        activeAnimation = null;
+        idle.SetActive(false);
+        run.SetActive(false);
+        jump.SetActive(false);
+        duck.SetActive(false);
+        shoot.SetActive(false);
+        fall.SetActive(false);
     }
 
 }

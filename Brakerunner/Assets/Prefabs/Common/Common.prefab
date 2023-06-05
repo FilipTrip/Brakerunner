@@ -773,8 +773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a322b18aef4dbeb1f36b5797dcda73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolSize: 5
-  spriteRepositionIndex: 2
+  poolSize: 3
+  spriteRepositionIndex: 1
   spriteRepositionCorrection: 0.01
 --- !u!1 &3021437094340777008
 GameObject:
@@ -787,6 +787,7 @@ GameObject:
   - component: {fileID: 4072145847938296778}
   - component: {fileID: 624947868914608311}
   - component: {fileID: 3472444809002735632}
+  - component: {fileID: 7468140080582082691}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -851,7 +852,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2164260863
+    rgba: 4294967040
   m_fontColor: {r: 0, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -911,6 +912,36 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7468140080582082691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3021437094340777008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c162dc854d2f24fa639ba0623de5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 4
+  spread: 0
+  useGlobalAngle: 1
+  offsetAngle: 90
+  offsetDistance: 7
+  offset: {x: 4.273555, y: -5.5440717}
+  color: {r: 0, g: 0, b: 0, a: 1}
+  inset: 0
+  blendMode: 0
+  useCasterAlpha: 0
+  ignoreCasterColor: 0
+  colorBleedMode: 2
+  disableFitCompensation: 0
+  shadowAsSibling: 0
+  cutout: 0
+  baked: 0
+  modifiedFromInspector: 0
+  bakedShadows: []
 --- !u!1 &3063243953647677441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,7 +1166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolSize: 5
-  spriteRepositionIndex: 2
+  spriteRepositionIndex: 1
   spriteRepositionCorrection: 0.01
 --- !u!1 &4753276220356318556
 GameObject:
@@ -1758,8 +1789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a322b18aef4dbeb1f36b5797dcda73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolSize: 5
-  spriteRepositionIndex: 2
+  poolSize: 4
+  spriteRepositionIndex: 1
   spriteRepositionCorrection: 0.01
 --- !u!1 &8611940492827865651
 GameObject:
@@ -1823,7 +1854,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &7451775864478905502
 MonoBehaviour:
@@ -1876,6 +1907,7 @@ GameObject:
   - component: {fileID: 2974343500454969812}
   - component: {fileID: 8635488398610270477}
   - component: {fileID: 259349273525688204}
+  - component: {fileID: 8495950611973321742}
   m_Layer: 5
   m_Name: Multiplier
   m_TagString: Untagged
@@ -2000,3 +2032,33 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8495950611973321742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8756354608167789673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c162dc854d2f24fa639ba0623de5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 4
+  spread: 0
+  useGlobalAngle: 1
+  offsetAngle: 90
+  offsetDistance: 7
+  offset: {x: 4.273555, y: -5.544071}
+  color: {r: 0, g: 0, b: 0, a: 1}
+  inset: 0
+  blendMode: 0
+  useCasterAlpha: 1
+  ignoreCasterColor: 0
+  colorBleedMode: 0
+  disableFitCompensation: 0
+  shadowAsSibling: 0
+  cutout: 0
+  baked: 0
+  modifiedFromInspector: 0
+  bakedShadows: []

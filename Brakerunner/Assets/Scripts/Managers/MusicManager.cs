@@ -16,6 +16,7 @@ public class MusicManager : MonoBehaviour
         {
             Debug.Log("Instance was null");
             Instance = this;
+            StartCoroutine(Coroutine_FadeInMusic());
         }
 
         else
@@ -40,6 +41,7 @@ public class MusicManager : MonoBehaviour
                 Instance.audioSource.Stop();
                 Destroy(Instance.gameObject);
                 Instance = this;
+                StartCoroutine(Coroutine_FadeInMusic());
             }
         }
     }
@@ -49,6 +51,19 @@ public class MusicManager : MonoBehaviour
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
         Physics2D.SyncTransforms();
+    }
+
+    private IEnumerator Coroutine_FadeInMusic()
+    {
+        audioSource.volume = 0f;
+
+        while (audioSource.volume < 1f)
+        {
+            yield return null;
+            audioSource.volume += Time.unscaledDeltaTime * 0.5f;
+        }
+
+        audioSource.volume = 1f;
     }
 
 }
