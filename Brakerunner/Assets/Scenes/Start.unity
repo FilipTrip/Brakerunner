@@ -461,9 +461,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2133599411}
     m_Modifications:
+    - target: {fileID: 697948793685213149, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 948337264643205513, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
       propertyPath: m_Name
       value: Controls Overview
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896564430721655400, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896564430854375925, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896564432129044751, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5431292734318213479, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
       propertyPath: m_Pivot.x
@@ -548,6 +564,18 @@ PrefabInstance:
     - target: {fileID: 5431292734318213479, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657014880975502861, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7470664492263773033, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7995429936146959281, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee30507211b9b4d8792b76fcefbc3e55, type: 3}
@@ -648,7 +676,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 18
+  m_fontStyle: 19
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
