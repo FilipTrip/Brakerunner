@@ -300,6 +300,10 @@ MonoBehaviour:
   - {fileID: 3492116249959230459, guid: cb20c3655a91a4d0aa362c320af8ec03, type: 3}
   - {fileID: 3492116249959230459, guid: df01e83d51f0a47f9be3e760e5930ee4, type: 3}
   - {fileID: 3492116249959230459, guid: 9c5206e9ecbac466eb4b013120df448a, type: 3}
+  - {fileID: 3492116249959230459, guid: 713e59be0cd574feb8d7a88a273f5ad2, type: 3}
+  - {fileID: 3492116249959230459, guid: ac8deb6afaa0b42f5976ec56febbcb7a, type: 3}
+  - {fileID: 3492116249959230459, guid: acb109c3991de426a91f597497928d19, type: 3}
+  - {fileID: 3492116249959230459, guid: c8e41d014acf841f78b4a3bc70b8ddf8, type: 3}
   instantiateDistance: 40
   destroyDistance: 15
   activeSegments:
@@ -823,7 +827,7 @@ GameObject:
   - component: {fileID: 1495785968}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -962,7 +966,7 @@ MonoBehaviour:
   brakeSound:
     audioClip: {fileID: 8300000, guid: 8634b56746bdc469aa417b31e8ab0921, type: 3}
     pitch: 1
-    volume: 0.7
+    volume: 1
   landSound:
     audioClip: {fileID: 8300000, guid: 58affe7ad4e8946619c239cc4f14c10a, type: 3}
     pitch: 1

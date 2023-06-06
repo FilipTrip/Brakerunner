@@ -11,9 +11,11 @@ public class Jump : MonoBehaviour
     private bool cooldown = true;
     private bool onGround = false;
     private bool oldOnGround = false;
+    private Collider2D collider;
 
     public bool OnGround => onGround;
     public bool CanJump => onGround && cooldown;
+    public Collider2D Collider => collider;
 
     public UnityEvent Landing = new UnityEvent();
 
@@ -35,6 +37,7 @@ public class Jump : MonoBehaviour
             if (oldOnGround == false)
             {
                 Debug.Log("Landing");
+                this.collider = collider;
                 Landing.Invoke();
             }
         }
@@ -45,4 +48,10 @@ public class Jump : MonoBehaviour
         cooldown = false;
         DelayedCall.Create(this, () => cooldown = true, cooldownTime);
     }
+
+    public void ContinueJump()
+    {
+        oldOnGround = false;
+    }
+
 }

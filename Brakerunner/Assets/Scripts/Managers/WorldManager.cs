@@ -24,7 +24,6 @@ public class WorldManager : MonoBehaviour
 
         while (Player.Instance.transform.position.x - destroyDistance > activeSegments[0].ExitTile.transform.position.x)
         {
-            Debug.Log("Destroying segment");
             Destroy(activeSegments[0].gameObject);
             activeSegments.RemoveAt(0);
         }
@@ -33,7 +32,6 @@ public class WorldManager : MonoBehaviour
 
         while (Player.Instance.transform.position.x + instantiateDistance > latestSegment.ExitTile.transform.position.x)
         {
-            Debug.Log("Instantiating segment");
             Segment newSegment = Instantiate(segmentPrefabs[Random.Range(0, segmentPrefabs.Length)], transform).GetComponent<Segment>();
             newSegment.FindEntryAndExit();
 

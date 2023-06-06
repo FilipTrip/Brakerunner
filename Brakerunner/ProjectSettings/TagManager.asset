@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tilemap
   - Bullet
+  - Glass
   layers:
   - Default
   - TransparentFX

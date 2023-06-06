@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Duck Animation
+  m_Name: Duck Start
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,8 +20,12 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: ab6a8991c04a34e968f6a942cf2f37b4, type: 3}
+      value: {fileID: 21300000, guid: 4ee418e99554d494292cc9b02de0fa44, type: 3}
     - time: 0.083333336
+      value: {fileID: 21300000, guid: ab6a8991c04a34e968f6a942cf2f37b4, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 93fd139124dec4b1a95a992017ef7090, type: 3}
+    - time: 0.25
       value: {fileID: 21300000, guid: e7ae0ce7b4ae1475f9324a71d0e1619f, type: 3}
     attribute: m_Sprite
     path: 
@@ -42,14 +46,16 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: 21300000, guid: 4ee418e99554d494292cc9b02de0fa44, type: 3}
     - {fileID: 21300000, guid: ab6a8991c04a34e968f6a942cf2f37b4, type: 3}
+    - {fileID: 21300000, guid: 93fd139124dec4b1a95a992017ef7090, type: 3}
     - {fileID: 21300000, guid: e7ae0ce7b4ae1475f9324a71d0e1619f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.16666667
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

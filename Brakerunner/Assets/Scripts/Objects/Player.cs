@@ -36,12 +36,15 @@ public class Player : MonoBehaviour
     [SerializeField] private SoundData brakeSound;
     [SerializeField] private SoundData landSound;
 
+    private bool slam;
     private bool dead;
     private float duckTimer;
     private float shootTimer;
     private Coroutine jumpCoroutine;
     private AudioSource duckSoundDummy;
+    private List<Vector2> oldVelocity = new List<Vector2>();
 
+    public bool Slam => slam;
     public float Speed => speed;
     public Transform CameraParent => cameraParent;
 
@@ -155,6 +158,10 @@ public class Player : MonoBehaviour
             return;
 
         rigidbody.velocity = new Vector2(speed, rigidbody.velocity.y);
+
+        oldVelocity.Add(rigidbody.velocity);
+        if (oldVelocity.Count > 5)
+            oldVelocity.RemoveAt(0);
     }
 
     // Jump
@@ -228,8 +235,9 @@ public class Player : MonoBehaviour
 
         if (!jump.OnGround)
         {
+            slam = true;
             SoundManager.Instance.PlayDummy(transform, jumpSound);
-            jump.Landing.AddListener(Land);
+            jump.Landing.AddListener(SlamLand);
         }
         else
         {
@@ -241,7 +249,8 @@ public class Player : MonoBehaviour
     {
         // Is called when duckTimer reaches zero, or when duck is interrupted by another action
 
-        // Reset duckTimer and stop duck sound (in case this method was called to interrupt)
+        // Stop duck (in case this method was called to interrupt)
+        slam = false;
         duckTimer = 0f;
         SoundManager.Instance.FadeOut(duckSoundDummy, 0.2f);
 
@@ -249,13 +258,24 @@ public class Player : MonoBehaviour
         playerAnimator.StopDuck();
     }
 
-    private void Land()
+    private void SlamLand()
     {
         // Is called when landing after a duck. Removes itself as a landing listener
 
-        jump.Landing.RemoveListener(Land);
-        SoundManager.Instance.PlayDummy(transform, landSound);
-        duckSoundDummy = SoundManager.Instance.PlayDummy(transform, duckSound);
+        if (jump.Collider.tag == "Glass")
+        {
+            jump.Collider.GetComponent<Glass>().Break(true);
+            jump.ContinueJump();
+            rigidbody.velocity = oldVelocity[3];
+        }
+
+        else
+        {
+            jump.Landing.RemoveListener(SlamLand);
+            SoundManager.Instance.PlayDummy(transform, landSound);
+            duckSoundDummy = SoundManager.Instance.PlayDummy(transform, duckSound);
+            slam = false;
+        }
     }
 
     // Shoot
@@ -287,8 +307,11 @@ public class Player : MonoBehaviour
 
     private void Brake()
     {
-        if (jump.OnGround)
-            speed = minSpeed;
+        if (!jump.OnGround)
+            return;
+
+        speed = minSpeed;
+        SoundManager.Instance.PlayDummy(transform, brakeSound);
     }
 
     // Die
