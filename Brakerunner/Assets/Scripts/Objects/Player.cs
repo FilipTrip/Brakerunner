@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
 
         // Check if dead
 
-        if (rigidbody.velocity.x <= 0f || rigidbody.velocity.y < -50f)
+        if (rigidbody.velocity.x <= 0f || rigidbody.velocity.y < -100f)
         {
             Debug.Log("Death velocity: " + rigidbody.velocity);
             Explode();
